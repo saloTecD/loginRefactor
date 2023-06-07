@@ -101,30 +101,36 @@ const viewRoutes = (store) => {
 
     router.get(`/login`, async (req, res) => {
         let msg = req.query.msg
-        res.render("login", { msg: msg })
+        let msg2=req.session.messages===undefined?null:req.session.messages[0]
+        delete req.session.messages
+        res.render("login", { msg: msg,msg2:msg2 })
     })
-    router.post(`/login`, async (req, res) => {
+    router.post(`/login`, passport.authenticate("login",{failureRedirect:"/login",failureMessage:"Ususario o clave invalidos"}),async (req, res) => {
         const { userEmail, userPassword } = req.body
-        if (userEmail === "adminCoder@coder.com" && userPassword === "adminCod3r123") {
-            req.session.userValidated = req.sessionStore.userValidated = true
-            req.session.errorMessage = req.sessionStore.errorMessage = ""
-            res.redirect(`http://localhost:8080?logo=adminCoder&rol=admin`)
-        } else {
-            const user = await uManager.validateUser(userEmail, userPassword)
-            if (user === "Usuario no existe") {
-                req.session.userValidated = req.sessionStore.userValidated = false
-                req.session.errorMessage = req.sessionStore.errorMessage = "Usuario invalido"
-                res.render("login", { msg: "Usuario invalido" })
-            } else if(user==="Clave invalida"){
-                req.session.userValidated = req.sessionStore.userValidated = false
-                req.session.errorMessage = req.sessionStore.errorMessage = "Clave invalida"
-                res.render("login", { msg: "Clave invalida" })
-            }else {
-                req.session.userValidated = req.sessionStore.userValidated = true
-                req.session.errorMessage = req.sessionStore.errorMessage = ""
-                res.redirect(`http://localhost:8080?logo=${user.userName}&rol=${user.userRol}`)
-            }
-        }
+        const user = await uManager.validateUser(userEmail, userPassword)
+        req.session.userValidated = req.sessionStore.userValidated = true
+        req.session.errorMessage = req.sessionStore.errorMessage = ""
+        res.redirect(`http://localhost:8080?logo=${user.userName}&rol=${user.userRol}`)
+        // if (userEmail === "adminCoder@coder.com" && userPassword === "adminCod3r123") {
+        //     req.session.userValidated = req.sessionStore.userValidated = true
+        //     req.session.errorMessage = req.sessionStore.errorMessage = ""
+        //     res.redirect(`http://localhost:8080?logo=adminCoder&rol=admin`)
+        // } else {
+        //     const user = await uManager.validateUser(userEmail, userPassword)
+        //     if (user === "Usuario no existe") {
+        //         req.session.userValidated = req.sessionStore.userValidated = false
+        //         req.session.errorMessage = req.sessionStore.errorMessage = "Usuario invalido"
+        //         res.render("login", { msg: "Usuario invalido" })
+        //     } else if(user==="Clave invalida"){
+        //         req.session.userValidated = req.sessionStore.userValidated = false
+        //         req.session.errorMessage = req.sessionStore.errorMessage = "Clave invalida"
+        //         res.render("login", { msg: "Clave invalida" })
+        //     }else {
+        //         req.session.userValidated = req.sessionStore.userValidated = true
+        //         req.session.errorMessage = req.sessionStore.errorMessage = ""
+        //         res.redirect(`http://localhost:8080?logo=${user.userName}&rol=${user.userRol}`)
+        //     }
+        // }
 
     })
     router.get(`/registro`, async (req, res) => {
