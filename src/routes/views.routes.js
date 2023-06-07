@@ -132,7 +132,7 @@ const viewRoutes = (store) => {
          let msg=req.session.messages===undefined?null:req.session.messages[0]
         res.render("register",{msg:msg})
     })
-    router.post(`/registro`,passport.authenticate("register",{failureRedirect:"/registro",failureMessage:"Email ya registrado"}) ,async (req, res) => {
+    router.post(`/registro`,passport.authenticate("register",{failureRedirect:"/registro",failureMessage:"Este Email ya esta registrado"}) ,async (req, res) => {
         let user
         const nUser = req.body
         user = await uManager.createUser(nUser)
