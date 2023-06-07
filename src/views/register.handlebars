@@ -1,0 +1,44 @@
+<div class="container my-5 justify-content-center " >
+    <div class="row d-flex justify-content-center my-2 text-center">
+    <form action="http://localhost:8080/registro" method="post" class="border col-12 form-color">
+        <div class="row d-flex justify-content-center my-2 text-center">
+        <h3>REGISTRATE</h3>
+        </div>
+    <div class="row d-flex justify-content-center my-2 ">
+
+        <div class="form-floating mb-3 col-md-6">
+            <input type="text" class="form-control" id="userName" name="userName" placeholder="Jhon">
+            <label for="floatingInput">Nombre</label>
+        </div>
+        <div class="form-floating mb-3 col-md-6">
+            <input type="text" class="form-control" id="userLastName" name="userLastName" placeholder="Doe">
+            <label for="floatingInput">Apellido</label>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+        <div class="form-floating col-md-6">
+            <input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Password">
+            <label for="floatingPassword">Password</label>
+        </div>
+         <div class="form-floating col-md-6">
+            <input type="text" class="form-control" id="userEmail" name="userEmail" placeholder="Email">
+            <label for="floatingInput">Email</label>
+        </div>
+    </div>
+     {{#if msg}}
+     <div class="row my-5 d-flex justify-content-center">
+        <div class="col-md-8">
+            <p class="fw-bolder text-success">{{msg}}</p>
+        </div>
+    </div>
+    {{/if}}
+    <div class="row my-5 d-flex justify-content-center">
+        <div class="col-md-8">
+            
+            <button class="btn btn-primary" type="submit">Registrarse</button>
+        </div>
+    </div>
+
+    </form>
+</div>
+</div>

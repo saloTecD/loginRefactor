@@ -1,0 +1,18 @@
+<div class="container my-5">
+    <div class="row">
+        {{#each showProducts.products}}
+        <div class="col my-3">
+            <div class="card" style="width: 18rem;">
+                <img src={{this.pid.thumbnails}} class="card-img-top" alt={{this.pid.title}}>
+                <div class="card-body">
+                    <h5 class="card-title">{{this.pid.title}}</h5>
+                    <p class="card-text">{{this.pid.description}}</p>
+                    <p class="my-4">Precio x Und: <b>{{this.pid.price}}</b></p>
+                    <p class="my-3">Cant: {{this.quantity}}</p>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    
+</div>
