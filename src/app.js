@@ -6,10 +6,12 @@ import session from "express-session"
 import  mongoose from "mongoose"
 import MongoStore from "connect-mongo"
 import {Server} from "socket.io"
+import passport from "./config/passport.config.js"
 import chatManager from "./api/dao/chatManager.js"
 import router from "../src/routes/products.routes.js"
 import routerCart from "../src/routes/carts.routes.js"
 import viewRoutes from "./routes/views.routes.js"
+
 
 const cManager=new chatManager()
 const PORT=parseInt(process.env.PORT)
@@ -49,6 +51,10 @@ server.use(session({
     resave:false,
     saveUninitialized:false
 }))
+
+server.use(passport.initialize())
+server.use(passport.session())
+
 server.use("/api", router)
 server.use("/api", routerCart)
 server.use("/", viewRoutes(store))

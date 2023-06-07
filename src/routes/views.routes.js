@@ -2,6 +2,7 @@ import { Router } from "express";
 import productManager from "../api/dao/productManagerDB.js"
 import cartManager from "../api/dao/cartManagerDB.js"
 import userManager from "../api/dao/userManager.js"
+import passport from "../config/passport.config.js"
 
 const pManager = new productManager()
 const cManager = new cartManager()
@@ -127,9 +128,11 @@ const viewRoutes = (store) => {
 
     })
     router.get(`/registro`, async (req, res) => {
-        res.render("register")
+        
+         let msg=req.session.messages===undefined?null:req.session.messages[0]
+        res.render("register",{msg:msg})
     })
-    router.post(`/registro`, async (req, res) => {
+    router.post(`/registro`,passport.authenticate("register",{failureRedirect:"/registro",failureMessage:"Email ya registrado"}) ,async (req, res) => {
         let user
         const nUser = req.body
         user = await uManager.createUser(nUser)
@@ -151,6 +154,8 @@ const viewRoutes = (store) => {
         })
         res.redirect("http://localhost:8080")
     })
+
+    
     return router
 }
 export default viewRoutes
