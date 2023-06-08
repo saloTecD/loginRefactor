@@ -11,6 +11,7 @@ import chatManager from "./api/dao/chatManager.js"
 import router from "../src/routes/products.routes.js"
 import routerCart from "../src/routes/carts.routes.js"
 import viewRoutes from "./routes/views.routes.js"
+import sessionRoutes from "./routes/session.routes.js"
 
 
 const cManager=new chatManager()
@@ -60,6 +61,8 @@ server.use("/api", routerCart)
 server.use("/", viewRoutes(store))
 
 server.use("/public",express.static(`${__dirname}/public`))
+
+server.use("/api/sessions",sessionRoutes(store))
 
 
 server.engine("handlebars", engine())

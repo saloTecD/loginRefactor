@@ -18,8 +18,7 @@ const viewRoutes = (store) => {
 
     router.get(`/`, async (req, res) => {
         store.get(req.sessionID, async (err, data) => {
-            console.log(data)
-            console.log(req.sessionID)
+            
             if (data !== null && (req.session.userValidated || req.sessionStore.userValidated)) {
                 let limit = parseInt(req.query.limit) || 10
                 let page = parseInt(req.query.page) || 1
@@ -35,7 +34,7 @@ const viewRoutes = (store) => {
                 let newPrevUrl = prevLink == null ? null : "localhost:8080" + req.url.replace(/page=[0-9]+$/, `page=${prevLink}`)
                 let logo = req.query.logo
                 let rol = req.query.rol
-                console.log(logo)
+                console.log(`***************${JSON.stringify(req.session)}`)
                 if (regex.test(req.url)) {
                     newNextLink = nextLink == null ? null : "localhost:8080" + req.url.replace(/page=[0-9]+$/, `page=${nextLink}`)
                 } else {
@@ -45,7 +44,7 @@ const viewRoutes = (store) => {
                 process.prevLink = newPrevUrl
                 process.nextLink = newNextLink
 
-
+                
                 res.render("products", { showProducts: process, logo: logo, rol: rol })
             } else {
                 res.render("login")
